@@ -1,0 +1,77 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+use Magento\Framework\App\Action\Action;
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @var $block \Magento\Catalog\Block\Product\ListProduct
+ */
+?>
+<?php
+$_productCollection = $block->getLoadedProductCollection();
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$productModel = $objectManager->get('Magento\Catalog\Model\Product');
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$category = $objectManager->get('Magento\Framework\Registry')->registry('current_category');
+//echo 'Category id' . $category->getId();
+if ($category->getId() == 20) {
+    $category = $objectManager->create('Magento\Catalog\Model\Category')->load($category->getId());
+    // echo $category->getName();
+    $categories = $category->getChildrenCategories();
+    ?>
+    <div class="sub-category-list">
+        <div class="category-title">
+            
+        </div>
+        <ul id="subcategory-list" class="cat-list">
+            <li class="cat-item">
+               <img src="http://magetrad.nextmp.net/pub/media/wysiwyg/category-img0.jpg">
+               <h3><a href="">RIGHT PACK LAPTOP</a></h3>  
+            </li>
+            <li class="cat-item">
+               <img src="http://magetrad.nextmp.net/pub/media/wysiwyg/category-img1.jpg">
+               <h3><a href="">RIGHT PACK LAPTOP</a></h3>  
+            </li>
+            <li class="cat-item">
+               <img src="http://magetrad.nextmp.net/pub/media/wysiwyg/category-img2.jpg">
+               <h3><a href="">RIGHT PACK LAPTOP</a></h3>  
+            </li>
+            <li class="cat-item">
+               <img src="http://magetrad.nextmp.net/pub/media/wysiwyg/category-img3.jpg">
+               <h3><a href="">RIGHT PACK LAPTOP</a></h3>  
+            </li>
+            <li class="cat-item">
+               <img src="http://magetrad.nextmp.net/pub/media/wysiwyg/category-img4.jpg">
+               <h3><a href="">RIGHT PACK LAPTOP</a></h3>  
+            </li>
+            <li class="cat-item">
+               <img src="http://magetrad.nextmp.net/pub/media/wysiwyg/category-img5.jpg">
+               <h3><a href="">RIGHT PACK LAPTOP</a></h3>  
+            </li>
+            <li class="cat-item">
+               <img src="http://magetrad.nextmp.net/pub/media/wysiwyg/category-img6.jpg">
+               <h3><a href="">RIGHT PACK LAPTOP</a></h3>  
+            </li>
+            <li class="cat-item">
+               <img src="http://magetrad.nextmp.net/pub/media/wysiwyg/category-img7.jpg">
+               <h3><a href="">RIGHT PACK LAPTOP</a></h3>  
+            </li>
+            <li class="cat-item">
+               <img src="http://magetrad.nextmp.net/pub/media/wysiwyg/category-img8.jpg">
+               <h3><a href="">RIGHT PACK LAPTOP</a></h3>  
+            </li>
+        </ul>
+    </div>
+    <?php
+}
+?>

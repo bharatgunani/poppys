@@ -1,0 +1,236 @@
+<?php  
+$helper = $this->helper('Lof\AjaxScroll\Helper\Data'); 
+$productListMode = $block->getProductListMode(); 
+$enable = $block->getEnableCategories(); 
+if($helper->isEnabled() && $enable): ?>
+  echo 111111111;
+<script>
+	require(['jquery','Emthemes_QuickShop/js/quickshop','ajaxscroll'	
+ 		], function ($) {  
+			windowLoadedFlag = false;
+			window.onload = function () {
+				windowLoadedFlag = true;
+			};   
+			var jQueryWaiter = function () {
+				var functions = [];
+				var timer = function() {
+					if( typeof window.jQuery != 'undefined') {
+						while (functions.length) {
+							functions.shift()(window.jQuery);
+						}
+					} else {
+						window.setTimeout(timer, 100);
+					}
+				};
+				timer();
+				return {
+					execute: function(onJQueryReady) {
+						if (window.jQuery) {
+							onJQueryReady(window.jQuery);
+						} else {
+							functions.push(onJQueryReady);
+						}
+					}
+				};
+			}();
+
+			window.SgyIAS = {
+				debug: false,
+				_log: function(object) { 
+					//console.log(object); 
+				},
+				init: function(){
+					console.log(2);					
+					jQuery(function($) {
+						var config = {
+							item: '<?php echo $productListMode == 'grid' ? $helper->getConfig('lofajaxscroll/selectors/grid_mode') : $helper->getConfig('lofajaxscroll/selectors/list_mode') ?>',
+							container : '<?php echo $helper->getConfig('lofajaxscroll/selectors/content') ?>',
+							next: '<?php echo $helper->getConfig('lofajaxscroll/selectors/next') ?>',
+							pagination: '<?php echo $helper->getConfig('lofajaxscroll/selectors/pagination') ?>',
+							delay: 600,
+							negativeMargin: <?php echo (int) $helper->getConfig('lofajaxscroll/design/buffer') ?>,
+							history: {
+								prev: '.prev'
+							},
+							noneleft: {
+								text: '<?php echo $helper->jsQuoteEscape(__($helper->getConfigData('lofajaxscroll/design/done_text'))) ?>',
+								html: '<div class="ias-noneleft" style="text-align: center;">{text}</div>'
+							},
+							spinner: {
+								<?php if($block->getLoaderImage() !== false): ?>
+								src: '<?php echo $block->getLoaderImage(); ?>',
+							<?php endif; ?>
+							html: '<div class="ias-spinner" style="text-align: center;"><img style="display:inline" src="{src}"/> <?php echo $helper->jsQuoteEscape(__($helper->getConfigData('lofajaxscroll/design/loading_text'))); ?></div>'
+						},  
+						trigger: {
+							text: '<?php echo $helper->jsQuoteEscape(__($helper->getConfigData('lofajaxscroll/design/load_more_text'))) ?>',
+							html: '<div class="ias-trigger ias-trigger-next" style="text-align: center; cursor: pointer;"><a>{text}</a></div>',
+							textPrev: '<?php echo $helper->jsQuoteEscape(__($helper->getConfigData('lofajaxscroll/design/load_more_text'))) ?>',
+							htmlPrev: '<div class="ias-trigger ias-trigger-prev" style="text-align: center; cursor: pointer;"><a>{text}</a></div>',
+							offset: <?php echo (int) $helper->getConfigData('lofajaxscroll/design/load_more') ?>
+						}
+
+					};
+
+
+					if (window.ias_config){
+						$.extend(config, window.ias_config);
+					}
+
+
+					SgyIAS._log({extension: 'ias', config: config});
+					window.ias = $.ias(config);
+
+					SgyIAS._log({extension: 'paging'});
+					window.ias.extension(new IASPagingExtension());
+
+					SgyIAS._log({extension: 'spinner'});
+					window.ias.extension(new IASSpinnerExtension(config.spinner));
+
+					SgyIAS._log({extension: 'noneleft'});
+					window.ias.extension(new IASNoneLeftExtension(config.noneleft));
+
+					SgyIAS._log({extension: 'trigger'});
+					window.ias.extension(new IASTriggerExtension(config.trigger)); 	
+
+						// debug events
+						window.ias.on('scroll', function(scrollOffset, scrollThreshold){
+							SgyIAS._log({eventName: 'scroll', scrollOffset: scrollOffset, scrollThreshold: scrollThreshold});
+						});
+						window.ias.on('load', function(event){
+							SgyIAS._log({eventName:'load', event: event});
+						});
+						window.ias.on('loaded', function(data, items){
+							SgyIAS._log({eventName: 'loaded', data: data, items: items});
+						});
+						window.ias.on('render', function(items){
+							SgyIAS._log({eventName: 'render', items: items});
+						}); 
+						window.ias.on('noneLeft', function(){
+							SgyIAS._log({eventName: 'noneLeft'});
+						});
+						window.ias.on('next', function(url){
+							SgyIAS._log({eventName: 'next', url: url});
+						});
+						window.ias.on('ready', function(){
+							SgyIAS._log({eventName: 'ready'});
+						});
+						if(windowLoadedFlag){
+							$(window).load();
+						}
+
+						SgyIAS._log('Done loading IAS.');
+
+					});
+
+				}
+			};
+			$('<?php echo $helper->getConfig('lofajaxscroll/selectors/toolbar') ?>').<?php echo $helper->getConfig('lofajaxscroll/design/hide_toolbar') ? 'hide' : 'show' ?>(); 
+			jQueryWaiter.execute(function(){
+				SgyIAS.init();
+
+			});
+		});
+		
+		   /*quickShop"baseUrl": "http://www.mochilasjansport.com/",
+			"qsLabel": "Quick Shop",
+			"itemClass": ".product-item",
+			"target": ".product-item-info",
+			"autoAddButtons":true*/
+
+
+//]]>
+</script>
+<?php endif ?>
+<script>
+require(['jquery','Emthemes_QuickShop/js/quickshop'],function($){
+console.log('cusotm js');
+		var config = {
+			"baseUrl": "http://www.mochilasjansport.com/",
+			"qsLabel": "Quick Shop",
+			"itemClass": ".product-item",
+			'modalId': 'quickshop',
+			'autoAddButtons': true,
+			'target': '.product-item-info'
+		};
+init();		
+function init(){
+console.log('cusotm js 1');
+	this._buildQuickShop(this.config);
+}					
+_buildQuickShop: function(config){
+			this._addButton(config);
+			console.log('buildquickshop');
+			var $modal = $('#'+config.modalId)
+			$modal.modal({
+				innerScroll: true,
+				title: config.qsLabel,
+				trigger: '.'+config.handlerClass,
+				wrapperClass: 'qs-modal',
+				buttons: [],
+				opened: function(){
+					var $loader = $modal.find('.qs-loading-wrap');
+					var $content = $modal.find('.qs-content');
+					$loader.show(); $content.hide();
+					$.ajax({
+						url:qsUrl,
+						type: 'POST',
+						cache:false,
+						success: function(res){
+							$content.html(res).trigger('contentUpdated');
+							$content.show();
+							//If product type is bundle
+							if($content.find('#bundle-slide').length > 0){
+								var $bundleBtn = $content.find('#bundle-slide');
+								var $bundleTabLink = $('#tab-label-quickshop-product-bundle-title');
+								$bundleTabLink.parent().hide();
+								$bundleBtn.unbind('click').click(function(e){
+									e.preventDefault();
+									$bundleTabLink.parent().show();
+									$bundleTabLink.click();
+									return false;
+								});
+							}
+							//If use swatches
+							if($content.find('.swatch-opt').length > 0){
+								var $swatchOpt = $content.find('.swatch-opt');
+								$content.find('.field.configurable').hide();
+								setTimeout(function(){
+									$swatchOpt.find('.swatch-option').each(function(){
+										var $this = $(this);
+										$this.bind('mouseup',function(){
+											$content.find('#product-addtocart-button').attr('disabled','disabled');
+											var opId = $this.attr('option-id');
+											var $curOpt = $content.find('select.super-attribute-select option[value="'+opId+'"]').first();
+											if($this.hasClass('selected')){
+												$curOpt.parent().val('').trigger('change');
+											}else{
+												$curOpt.parent().val(opId).trigger('change');
+											}
+											$content.find('#product-addtocart-button').removeAttr('disabled');
+										});
+									});
+								},100);
+							}
+							//If use reviews
+							if($content.find('#tab-label-quickshop-reviews-title').length > 0){
+								var $reviewsTabLink = $content.find('#tab-label-quickshop-reviews-title');
+								$content.find('.reviews-actions .action.view').click(function(){
+									$reviewsTabLink.click();
+								});
+								$content.find('.reviews-actions .action.add').click(function(){
+									$reviewsTabLink.click();
+									$content.find('#nickname_field').focus();	
+								})
+							}
+						}
+					}).always(function(){$loader.hide();});
+				},
+				closed: function(){
+					$modal.find('.qs-content').html('');
+				}
+			});
+		}
+
+}); //jquery function end
+</script>

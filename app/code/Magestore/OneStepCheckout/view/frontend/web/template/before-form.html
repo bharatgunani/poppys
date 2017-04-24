@@ -1,0 +1,39 @@
+<!--
+  ~ /**
+  ~  Copyright © 2016 Magestore. All rights reserved.
+  ~  See COPYING.txt for license details.
+  ~  */
+-->
+
+<li>
+    <h1 class="checkout_header" data-bind="text: oneStepTitle"></h1>
+    <p class="subtitle" data-bind="text: oneStepDescription"></p>
+</li>
+<!-- ko if: !isLogin() -->
+
+<!-- <li id='onestepcheckout_login_link' class="onestepcheckout-login-link" data-bind="visible: isShowLoginLink">
+    <a href="javascript:void(0);" id="onestepcheckout-login-link"
+       data-bind="text: loginLinkTitle, click: showLoginForm">
+    </a>
+</li> -->
+
+<!-- custom code -->
+<li id='onestepcheckout_login_link' class="onestepcheckout-login-link" data-bind="visible: isShowLoginLink">
+<span  data-bind="i18n: 'Click'"></span> <a href="javascript:void(0);" id="onestepcheckout-login-link" data-bind="i18n: 'Here', click: showLoginForm"></a>
+<span  data-bind="i18n: 'To Login Or Create A New Account'"></span>
+</li>
+<!-- end custom code -->
+<!-- /ko  -->
+
+<li>
+    <a title="Continue Shopping" href="https://www.mochilasjansport.com/" class="action continue onestepcheckout-login-link" data-bind="i18n: 'Continue Shopping'"> 
+    </a>
+</li>
+
+<!-- ko if: isLogin() -->
+<li id='onestepcheckout_logout_link' class="onestepcheckout-login-link" data-bind="visible: isShowLoginLink">
+    <a href="javascript:void(0);" id="onestepcheckout-logout-link"
+       data-bind="i18n: 'Logout', click: logout">
+    </a>
+</li>
+<!-- /ko  -->

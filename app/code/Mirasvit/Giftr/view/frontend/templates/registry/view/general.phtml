@@ -1,0 +1,52 @@
+<?php
+/**
+ * @var $block \Mirasvit\Giftr\Block\Registry\View
+ */
+?>
+
+<div class="giftr-registry-view-general">
+    <div class="image">
+        <img src="<?php echo $block->getRegistry()->getImageUrl(500, 250) ?>" width="100%"
+             alt="<?php echo $block->getRegistry()->getName() ?>"/>
+    </div>
+
+    <div class="info">
+        <table>
+            <tr>
+                <th><?php echo __('Registrant') ?>:</th>
+                <td><?php echo $block->getRegistrantName() ?></td>
+            </tr>
+            <?php if ($block->getRegistry()->getCoFirstname()): ?>
+                <tr>
+                    <th><?php echo __('Co-Registrant') ?>:</th>
+                    <td><?php echo $block->getCoRegistrantName() ?></td>
+                </tr>
+            <?php endif ?>
+            <?php if ($block->getRegistry()->getEventAt()): ?>
+            <tr>
+                <th><?php echo __('Event Date') ?>:</th>
+                <td><?php echo $block->getEventDate() ?></td>
+            </tr>
+            <?php endif ?>
+            <?php if ($block->getRegistry()->getLocation()): ?>
+                <tr>
+                    <th><?php echo __('Location') ?>:</th>
+                    <td><?php echo $block->getRegistry()->getLocation() ?></td>
+                </tr>
+            <?php endif ?>
+            <?php if ($block->getRegistry()->hasDescription()): ?>
+                <tr>
+                    <th><?php echo __('Description') ?>:</th>
+                    <td><?php echo $block->escapeHtml($block->getRegistry()->getDescription()) ?></td>
+                </tr>
+            <?php endif ?>
+
+            <?php foreach ($block->getFieldCollection() as $field): ?>
+                <tr>
+                    <th><?php echo __($field->getName()) ?>:</th>
+                    <td><?php echo $block->getFieldValue($field) ?></td>
+                </tr>
+            <?php endforeach ?>
+        </table>
+    </div>
+</div>

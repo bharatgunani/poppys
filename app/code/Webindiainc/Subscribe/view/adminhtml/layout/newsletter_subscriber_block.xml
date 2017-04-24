@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="adminhtml.newslettrer.subscriber.grid.columnSet">
+
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="subscriber_dateofbirth">
+             		 <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Customer Date of Birth</argument>
+                            <argument name="index" xsi:type="string">subscriber_dateofbirth</argument>
+                            <item name="sortOrder" xsi:type="number">10</item>
+                            <argument name="header_css_class" xsi:type="string">col-date-of-birth</argument>
+                            <argument name="column_css_class" xsi:type="string">col-date-of-birth</argument>
+                        </arguments>
+                   </block>
+                       <block class="Magento\Backend\Block\Widget\Grid\Column" as="countrycode">
+                        <arguments>
+                           <argument name="header" xsi:type="string" translate="true">Country Code</argument>
+                            <argument name="index" xsi:type="string">subscriber_countrycode</argument>
+                            <item name="sortOrder" xsi:type="number">12</item>
+                            <argument name="header_css_class" xsi:type="string">col-country-code</argument>
+                            <argument name="column_css_class" xsi:type="string">col-country-code</argument>
+                          </arguments>
+                    </block>
+        </referenceBlock>
+    </body>
+</page>
+
+

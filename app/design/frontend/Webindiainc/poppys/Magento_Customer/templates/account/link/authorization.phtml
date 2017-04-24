@@ -1,0 +1,34 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Customer\Block\Account\AuthorizationLink */
+$dataPostParam = '';
+if ($block->isLoggedIn()) {
+    $dataPostParam = sprintf(" data-post='%s'", $block->getPostParams());
+}
+?>
+<?php
+if ($block->isLoggedIn()):
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $customerSession = $objectManager->create('Magento\Customer\Model\Session');
+    ?>
+    <?php /*<li class="myaccount-link">
+        <a title="<?php echo $block->escapeHtml(__('My Account')); ?>" class="link-account" href="<?php  echo $block->getBaseUrl() . 'customer/account'; ?>">
+            <?php echo $customerSession->getCustomer()->getName(); //$block->escapeHtml(__('My Account'));  ?>
+        </a>
+    </li> */ ?>
+<?php endif; ?>
+<li class="authorization-link <?php echo ($block->isLoggedIn()) ? 'log-out' : 'log-in' ?>"  >
+    <a class="link-account" title="<?php echo $block->escapeHtml($block->getLabel()); ?>" <?php /* @escapeNotVerified */ echo $block->getLinkAttributes(); ?><?php /* @escapeNotVerified */ echo $dataPostParam; ?>>
+        <?php echo $block->escapeHtml($block->getLabel()); ?>
+        <?php //echo __('Login'); ?>
+    </a>
+    <?php if (!$block->isLoggedIn()): ?>
+        <?php echo $block->getChildHtml() ?>
+    <?php endif ?> 
+</li>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Location: magento2_root/app/code/Vendorname/Extensionname/etc/adminhtml/system.xml
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="subscription" translate="label" sortOrder="1000">
+            <label>Webindiainc</label>
+        </tab>
+        <section id="subscription" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Newslatter Subscription</label>
+            <tab>subscription</tab>
+            <resource>Webindiainc_Subscribe::config</resource>
+			 <group id="active_display" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <!-- add a new group with id active display -->
+                <label>Newslatter Subscription Coupon Code Configuration</label>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <!-- add a new field with id scope -->
+                    <label>Enable Coupon Code</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                </field>
+                <field id="discount_qty" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Discount Qty</label>
+                </field>
+		<field id="discount_rate" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Discount Rate</label>
+                </field>
+		<field id="discount_type" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Discount Type</label>
+                    <source_model>Webindiainc\Subscribe\Model\Config\Source\DiscountType</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

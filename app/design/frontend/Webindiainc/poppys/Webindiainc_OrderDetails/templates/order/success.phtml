@@ -1,0 +1,35 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+// @codingStandardsIgnoreFile
+?>
+<?php /** @var $block \Webindiainc\OrderDetails\Block\Onepage\Success */ ?>
+<div class="checkout-success">
+    <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('checkout-sucess-page')->toHTML(); ?>
+    <?php //echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('block_identifier')->toHtml();?>
+
+    <?php if ($block->getOrderId()): ?>
+        <p> <?php echo __('Thank you for your purchase !'); ?> </p>
+        <p>
+            <?php /* @escapeNotVerified */ echo __('The confirmation number of your purchase is %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))); ?>
+            <?php /* @escapeNotVerified */ echo __('Very soon you will receive an email confirming your purchase and we will send others informing you about the shipping process and the tracking number.We hope you can soon start enjoying your JanSport'); ?>
+
+            <?php /* @escapeNotVerified  echo __('The confirmation number of your purchase is %1.Very soon you will receive an email confirming your purchase and we will send others informing you about the shipping process and the tracking number.
+              We hope you can soon start enjoying your JanSport', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) */ ?>
+
+        </p>
+    <?php endif; ?>
+    <?php echo $block->getAdditionalInfoHtml() ?>
+    <?php //echo 'test come form custom block'; ?>
+    <?php echo $block->getSomething(); ?>    
+    <div class="actions-toolbar">
+        <div class="primary">
+            <a class="action primary continue" href="<?php /* @escapeNotVerified */ echo $block->getUrl() ?>"><span><?php /* @escapeNotVerified */ echo __('Continue Shopping') ?></span></a>
+        </div>
+    </div>
+</div>
+<?php echo __('Custom template file content.'); ?>
+<?php echo $block->getSomething(); ?>
+

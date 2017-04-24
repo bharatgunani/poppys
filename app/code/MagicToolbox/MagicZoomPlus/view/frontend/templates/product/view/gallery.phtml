@@ -1,0 +1,23 @@
+
+<?php
+
+/**
+ * @var $block \MagicToolbox\MagicZoomPlus\Block\Product\View\Gallery
+ */
+?>
+<?php $_product = $block->getProduct() ?>
+
+	<?php echo $this->getChildHtml('product.mobile.info') ?>	
+
+<div class="online-ex-label">
+              <?php if($_product->getOnlineExclusive()): ?>
+                <span></span>
+              <?php endif ; ?>  
+          </div>
+		  <div class="online-gift-label">
+              <?php if($_product->getGift()): ?>
+                <span></span>
+              <?php endif ; ?>  
+          </div>
+<?php 
+echo $block->getRenderedHtml();

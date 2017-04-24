@@ -1,0 +1,197 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+// @codingStandardsIgnoreFile
+?>
+<?php /** @var $block \Webindiainc\OrderDetails\Block\Success */ ?>
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$orderData = $objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($block->getOrderId());
+$payment_method_code = $orderData->getPayment()->getMethodInstance()->getCode();
+//$shipping_data = $orderData->getShippingAddress()->getData();
+// echo "<pre>";print_r($orderData->getData());exit;
+//$payment = $orderData->getPaymentMethod()->getData();
+
+$renderer = $objectManager->get('Magento\Sales\Model\Order\Address\Renderer');
+$billingInfo = $renderer->format($orderData->getBillingAddress(), 'html');
+$shippingInfo = $renderer->format($orderData->getShippingAddress(), 'html');
+
+$resolver = $objectManager->get('Magento\Framework\Locale\Resolver');
+$lang = $resolver->getLocale();
+$getstore = $objectManager->get('Magento\Store\Block\Switcher');
+$langcol = $getstore->getStores();
+$languagecode = '';
+
+
+$currency = $objectManager->create('Magento\Directory\Model\CurrencyFactory')->create()->load($orderData->getOrderCurrencyCode());
+$currencySymbol = $currency->getCurrencySymbol();
+
+
+foreach ($langcol as $language) {
+    //echo '<pre>';print_r($language);
+    $code = $language->getCode();
+    ?>
+    <?php
+    if ($lang == 'es_PA' && $code == 'es') {
+        $languagecode = $code;
+    } else if ($lang == 'en_US' && $code == 'default') {
+        $languagecode = 'en';
+    } else {
+        //$languagecode =  $language->getName();
+        $languagecode = 'es';
+    }
+    ?>
+
+    <?php
+}
+?>
+
+<div class="checkout-success">
+    <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('checkout-sucess-page')->toHTML(); ?>
+    <?php //echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('block_identifier')->toHtml();?>
+
+    <?php if ($block->getOrderId()): ?>
+        <p> <?php echo __('Thank you for your purchase !'); ?> </p>
+        <p>
+            <?php /* @escapeNotVerified */ echo __('The confirmation number of your purchase is %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))); ?>
+            <?php /* @escapeNotVerified */ echo __('Very soon you will receive an email confirming your purchase and we will send others informing you about the shipping process and the tracking number.We hope you can soon start enjoying your JanSport'); ?>
+
+            <?php /* @escapeNotVerified  echo __('The confirmation number of your purchase is %1.Very soon you will receive an email confirming your purchase and we will send others informing you about the shipping process and the tracking number.
+              We hope you can soon start enjoying your JanSport', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) */ ?>
+
+        </p>
+        <p><?php /* @escapeNotVerified */ echo __('Email Address %1', sprintf('<strong>%s</strong>', $orderData->getData('customer_email'))); ?></p>
+    <?php endif; ?>
+    <?php
+    ?>
+    <div class="order-info">
+        <h2 class="title"><span><?php echo __('Order Information'); ?></span></h2>
+        <div class="shipping-info">
+            <h2><span class="sub-title"><?php echo __('Ship To'); ?></span></h2>
+            <div class="shipping-address">
+                <?php echo $shippingInfo; ?>
+            </div>
+        </div>
+        <div class="billing-info">
+            <h2><span class="sub-title"><?php echo __('Billing Address'); ?></span></h2>
+            <div class="billing-address">
+                <?php echo $billingInfo; ?>
+            </div>    
+        </div>
+        <div class="order-details">
+            <p><span class="sub-title shipping-address"><?php echo __('Ship Method'); ?></span>
+                <span><?php echo $orderData->getData("shipping_description"); ?></span>
+                <?php /* <span class="sub-title"><?php echo __('Payment Method'); ?></span>
+                  <span><?php echo __('Cash On Delivery'); ?></span></p> */ ?>
+        </div>
+        <?php
+        if ($payment_method_code == 'banktransfer') {
+            ?>
+            <div class="payment-details">
+                <h2><span class="sub-title"><?php echo __('Instruction'); ?></span></h2>
+                <p><?php echo __('The duration of your order is 24 hours in which you can process the payment of the same, otherwise the order will be canceled.'); ?></p>
+            </div>
+            <?php
+        }
+        ?>
+    </div>    
+    <div class="order-summary">
+        <h2 class="title"><span><?php echo __('Order Information'); ?></span></h2>
+        <table class="order-information-table">
+            <thead>
+            <th><?php echo __('Product'); ?></th>
+            <th><?php echo __('Price'); ?></th>
+            <th><?php echo __('Qty'); ?></th>
+            <th><?php echo __('Subtotal'); ?></th>
+            </thead>
+            <tbody>
+                <?php
+                $items = $orderData->getAllVisibleItems();
+                foreach ($items as $item) {
+                    $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($item->getProductId());
+                    $imageBlock = $block->getLayout()->createBlock('Magento\Catalog\Block\Product\ListProduct');
+                    $productImage = $imageBlock->getImage($_product, 'category_page_list');
+                    ?>
+                    <tr>
+                        <td>
+                            <div class="product-image">
+                                <a href ="<?php echo $_product->getProductUrl(); ?>"><?php echo $productImage->toHtml(); ?></a>
+                            </div>
+                            <h2 class="product-name"><span><?php echo $item->getName(); ?></span></h2>
+                            <p class="sku"><span class="product-sku"><?php echo $item->getSku(); ?></span></p>
+                            <?php $options = $item->getProductOptions(); ?>
+                            <?php
+                            if (!empty($options['attributes_info'])) {
+                                foreach ($options['attributes_info'] as $option) {
+                                    ?>
+                                    <dl class="product-option">
+                                        <dt class="option-label"><?php echo $option['label']; ?></dt>
+                                        <dd class="option-value"><?php echo $option['value']; ?></dd>
+                                    </dl>
+                                    <?php
+                                }
+                            }
+                            ?>
+
+                        </td>
+                        <td>
+                            <?php echo $currencySymbol .$item->getPrice(); ?>
+                        </td>
+                        <td>
+                            <?php echo $item->getQtyOrdered(); ?>
+                        </td>
+                        <td>
+                            <?php echo $currencySymbol .$item->getBaseRowTotal(); ?>
+                        </td>
+                    </tr>
+                    <?php
+                }
+                ?>   
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3"><?php echo __('Cart Sub Total'); ?></td>
+                    <td><?php echo $currencySymbol .$orderData->getData("subtotal"); ?></td>
+                </tr>
+                <tr>
+                    <td colspan="3"><?php echo __('Shipping'); ?></td>
+                    <td><?php echo $currencySymbol .$orderData->getData("shipping_amount"); ?></td>
+                </tr>
+                <tr>
+                    <td colspan="3"><?php echo __('Estimated Total'); ?></td>
+                    <td><?php echo $currencySymbol . $orderData->getData("grand_total"); ?></td>
+                </tr>
+            </tfoot>
+        </table>    
+
+    </div>    
+    <?php echo $block->getAdditionalInfoHtml() ?>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <a class="action primary continue" href="<?php /* @escapeNotVerified */ echo $block->getUrl() ?>"><span><?php /* @escapeNotVerified */ echo __('Continue Shopping') ?></span></a>
+        </div>
+    </div>
+
+</div>
+<!-- Google Code for Orders Placed Conversion Page -->
+<script type="text/javascript">
+    /* <![CDATA[ */
+    var google_conversion_id = 951188660;
+    var google_conversion_language = "<?php echo $languagecode; ?>";
+    var google_conversion_format = "3";
+    var google_conversion_color = "ffffff";
+    var google_conversion_label = "SKJWCLHtxm0QtPnHxQM";
+    var google_conversion_value = '<?php echo $orderData->getData("grand_total"); ?>';
+    var google_conversion_currency = "<?php echo $orderData->getOrderCurrencyCode(); ?>";
+    var google_remarketing_only = false;
+    /* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+    <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/951188660/?value=<?php echo $orderData->getData("grand_total"); ?>&amp;currency_code=<?php echo $orderData->getOrderCurrencyCode(); ?>&amp;label=SKJWCLHtxm0QtPnHxQM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>

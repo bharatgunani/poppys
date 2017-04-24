@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Webindiainc_OrderDetails
+*
+* @category    OrderDetails
+* @package     Webindiainc_OrderDetails
+* @copyright   Webindiainc (http://webindiainc.com)
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Webindiainc_OrderDetails" setup_version="1.0.0"></module>
+</config>

@@ -1,0 +1,3 @@
+<?php /* @var $block \Webindiainc\OrderDetails\Block\Success */?>
+<?php echo __('Custom template file content.'); ?>
+<?php echo $block->getSomething(); ?>

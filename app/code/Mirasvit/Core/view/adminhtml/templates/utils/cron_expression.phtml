@@ -1,0 +1,13 @@
+<script>
+    require(['jquery'], function($) {
+        var $inputs = $('input.cron-expression');
+
+        if ($inputs.length) {
+            require(['Mirasvit_Core/js/cron_expression'], function(cron) {
+                $inputs.each(function(key, el) {
+                    cron(el);
+                })
+            });
+        }
+    })
+</script>

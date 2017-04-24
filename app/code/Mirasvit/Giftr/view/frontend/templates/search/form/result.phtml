@@ -1,0 +1,68 @@
+<?php
+/**
+ * @var $block \Mirasvit\Giftr\Block\Search\Result
+ */
+?>
+
+<?php if (count($block->getCollection()) == 0): ?>
+    <p class="note-msg"><?php echo __('Your search returns no results.') ?></p>
+<?php endif ?>
+
+<div class="giftr-result products-grid">
+    <div class="toolbar">
+        <?php echo $block->getChildHtml('pager') ?>
+    </div>
+    <ol id="registry-list" class="registry-list product-items">
+        <?php /* @var $registry \Mirasvit\Giftr\Model\Registry */ ?>
+        <?php foreach ($block->getCollection() as $registry): ?>
+            <?php $block->setRegistry($registry) ?>
+            <li class="item product-item">
+                <div class="product-item-info">
+                    <a class="product-item-photo registry-image" href="<?php echo $block->getRegistryUrl() ?>">
+                        <img src="<?php echo $registry->getImageUrl(230, 135) ?>"
+                             alt="<?php echo $block->getRegistry()->getName() ?>"/>
+                    </a>
+
+                    <strong class="product-item-name registry-name">
+                        <a href="<?php echo $block->getRegistryUrl() ?>"
+                           title="<?php echo $block->getRegistry()->getName() ?>">
+                            <?php echo $block->getRegistry()->getName() ?>
+                        </a>
+                    </strong>
+
+                    <div class="info">
+                        <p class="registrant-name"><b><?php echo __('Registrant') ?>:</b>
+                            <?php echo $block->getRegistrantName() ?>
+                        </p>
+                        <?php if ($block->getRegistry()->getCoFirstname()): ?>
+                            <p class="registrant-name"><b><?php echo __('Co-Registrant') ?>:</b>
+                                <?php echo $block->getCoRegistrantName() ?>
+                            </p>
+                        <?php endif ?>
+
+                        <?php if ($registry->getEventAt()): ?>
+                            <p class="event-date"><b><?php echo __('Event Date') ?>:</b>
+                                <?php echo date('M d, Y', strtotime($registry->getEventAt())) ?>
+                            </p>
+                        <?php endif ?>
+
+                        <?php if ($registry->getLocation()): ?>
+                            <p class="location"><b><?php echo __('Location') ?>:</b>
+                                <?php echo $registry->getLocation() ?>
+                            </p>
+                        <?php endif ?>
+                    </div>
+
+                    <div class="product-item-inner">
+                        <?php if ($registry->hasDescription()): ?>
+                            <div class="description"><?php echo $registry->getDescription() ?></div>
+                        <?php endif ?>
+                    </div>
+                </div>
+            </li>
+        <?php endforeach ?>
+    </ol>
+    <div class="toolbar">
+        <?php echo $block->getChildHtml('pager') ?>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+<?php
+/** @var $block \Mirasvit\Giftr\Block\Search\Result * */
+?>
+<form method="get" class="giftr-search-form" action="<?php echo $block->getUrl('*/*/*') ?>">
+    <fieldset class="fieldset registry-search">
+        <hr>
+        <div class="field name">
+            <label class="label" for="name">
+                <?php echo __('You can find public gift registries by registrant\'s first and last name') ?>
+            </label>
+            <div class="control">
+                <input value="<?php echo $block->getEnteredData('name') ?>"
+                       class="input-text" id="name" type="text" name="name"
+                       title="<?php echo __('Registrant Name') ?>"
+                       placeholder="<?php echo __('Registrant Name') ?>" />
+            </div>
+        </div>
+
+        <div class="field uid">
+            <label class="label" for="registry_id">
+                <?php echo __('Or you can access private gift registries by gift registry identifier') ?>
+            </label>
+            <div class="control">
+                <input value="<?php echo $block->getEnteredData('registry_id') ?>" name="registry_id"
+                       class="input-text" id="registry_id" type="text"
+                       title="<?php echo __('Registry ID') ?>"
+                       placeholder="<?php echo __('Registry ID') ?>" />
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="actions-toolbar-registry-search">
+        <div class="primary">
+            <button class="action action-reset" type="reset" onclick="window.location.href = '<?php echo $block->getUrl('*/*/*') ?>'">
+                <span><span><?php echo __('Reset') ?></span></span>
+            </button>
+        </div>
+        <div class="secondary">
+            <button class="action search" type="submit" title="<?php echo __('Search') ?>">
+                <span><?php echo __('Search') ?></span>
+            </button>
+        </div>
+    </div>
+    <hr>
+</form>
+<?php echo $block->getChildHtml('giftrSearchResult') ?>

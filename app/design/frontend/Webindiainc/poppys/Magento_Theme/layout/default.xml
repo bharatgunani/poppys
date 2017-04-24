@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="header.panel">
+            <block class="Magento\Framework\View\Element\Html\Links" name="header.links">
+                <arguments>
+                    <argument name="css_class" xsi:type="string">header links</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Cms\Block\Block" name="header-social-link">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">header-social-link</argument>
+                    </arguments>
+                </block>
+        </referenceContainer>
+        <referenceBlock name="logo">
+            <arguments>
+                <argument name="logo_img_width" xsi:type="number">148</argument>
+                <argument name="logo_img_height" xsi:type="number">43</argument>
+            </arguments>
+        </referenceBlock>
+        <referenceContainer name="footer">
+            <block class="Magento\Store\Block\Switcher" name="store_switcher" as="store_switcher" after="footer_links" template="switch/stores.phtml"/>
+        </referenceContainer>
+        <referenceBlock name="report.bugs" remove="true"/>
+        <referenceBlock name="footer_links" remove="true"/>
+        <referenceContainer name="footer-container">
+            <block class="Magento\Newsletter\Block\Subscribe" name="form.subscribe.custom" as="subscribe.custom" after="about_store" template="subscribe.phtml" />
+            <container name="footer-bottom" after="subscribe.custom" as="footer-bottom" label="Page Footer-bottom" htmlTag="div" htmlClass="footer-bottom">
+            <container name="footer"  as="footer" label="Page Footer" htmlTag="div" htmlClass="footer content">
+                <block class="Magento\Cms\Block\Block" name="about_store">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">about_store</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Cms\Block\Block" name="store_links">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">store_links</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Cms\Block\Block" name="store_customer">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">store_customer</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Cms\Block\Block" name="store_myaccount">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">store_myaccount</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Cms\Block\Block" name="store_contact">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">store_contact</argument>
+                    </arguments>
+                </block>
+            </container>
+            </container>
+            <block class="Magento\Theme\Block\Html\Footer" name="copyright" template="html/copyright.phtml"/>
+        </referenceContainer>
+        <referenceBlock name="form.subscribe" remove="true"/>
+        <referenceBlock name="my-account-link" remove="true"/>
+        <referenceBlock name="register-link" remove="true"/>
+        <referenceBlock name="authorization-link-login" remove="true"/> 
+        <referenceBlock name="wish-list-link" remove="true"/>
+        <referenceBlock name="storelocator-header-link" remove="true"/>
+        <referenceBlock name="storelocator-top-link" remove="true"/>
+        <move element="copyright" destination="footer-container" after="-"/>
+    </body>
+</page>
